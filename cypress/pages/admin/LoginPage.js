@@ -34,8 +34,8 @@ export class LoginPage {
     }
 
     login(credentials) {
-        this.getEmail().type(credentials.email);
-        this.getPassword().type(credentials.password);
+        this.getEmail().type(credentials.email, {delay: 0});
+        this.getPassword().type(credentials.password, {delay: 0});
         this.clickSubmitButton();
     }
 }

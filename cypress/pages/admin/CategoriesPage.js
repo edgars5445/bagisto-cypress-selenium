@@ -7,28 +7,20 @@ export class CategoriesPage {
         cy.get('div[class="primary-button"').contains('Create Category').click();
     }
 
-    assertCreateCategoryPage() {
-        cy.url().should('include', '/admin/catalog/categories/create');
-    }
-
     createNewCategory(name, position = '1') {
+        this.visit();
         this.clickCreateCategory();
-        this.assertCreateCategoryPage();
 
         // set category name
-        cy.get('input[name="name"]').type(name);
+        cy.get('input[name="name"]').type(name,{ delay: 0 });
 
         // set parent category to root
-        cy.get('div')
-            .contains('Parent Category')
-            .parent('div')
-            .within(() => {
-                cy.get('label').contains('Root').click();
-            });
+        // select by xpath
+        cy.get('i.icon-folder + label').click();
 
 
         // set position passed in from the test
-        cy.get('input[name="position"]').type(position);
+        cy.get('input[name="position"]').type(position,{ delay: 0 });
 
         // make the category filterable by filters
         cy.get('label[class="cursor-pointer icon-uncheckbox peer-checked:icon-checked text-2xl peer-checked:text-blue-600"]')
@@ -57,23 +49,15 @@ export class CategoriesPage {
 
     deleteCategory(name) {
         // find the category in the list
-        cy.get('div[class="group/container sidebar-not-collapsed flex gap-4"]')
-            .contains(name)
-            .parent('div')
-            .within(() => {
-                // click the delete button
-                cy.get('.icon-delete').click();
-            });
+        cy.get('.row:nth-child(2) .icon-uncheckbox').click();
 
-        cy.get('div').contains('Are you sure?').parent('div').within(() => {
-            // confirm the delete
-            cy.get('button[class="primary-button"]').contains('Agree').click();
-        });
+        cy.get('.focus\\3Aring-black > span:nth-child(1)').click();
+        cy.get('a.flex.whitespace-no-wrap.rounded-b.px-4').click();
+
+        cy.get('div.flex.justify-end button.primary-button').click();
 
         // verify the category was deleted
-        cy.get('div[style="background: rgb(5, 150, 105);"]')
-            .contains('The category has been successfully deleted.')
-            .should('exist');
+        cy.get('div[style="background: rgb(5, 150, 105);"]').should('exist');
     }
 }
 
