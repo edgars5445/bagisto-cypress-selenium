@@ -1,21 +1,18 @@
-import {LoginPage} from "../pages/admin/LoginPage";
-import { CategoriesPage } from "../pages/admin/CategoriesPage";
-import {ProductsPage} from "../pages/admin/ProductsPage";
+import {LoginPage} from "../../../pages/admin/LoginPage";
+import { CategoriesPage } from "../../../pages/admin/CategoriesPage";
+import {ProductsPage} from "../../../pages/admin/ProductsPage";
 
 const AdminLoginPage = new LoginPage();
 const AdminCategoriesPage = new CategoriesPage();
 const AdminProductsPage = new ProductsPage();
 let startTime = new Date().getTime();
 describe('Create a new product and assert that it is visible', () => {
-    before(() => {
-        cy.clearCookies();
+    beforeEach(() => {
+        startTime = new Date().getTime();
         AdminLoginPage.visit();
         AdminLoginPage.login(AdminLoginPage.data.correct);
     });
 
-    beforeEach(() => {
-        startTime = new Date().getTime();
-    });
 
     it('Open dashboard', () => {
         cy.url().should('include', '/admin/dashboard');
@@ -30,8 +27,7 @@ describe('Create a new product and assert that it is visible', () => {
         AdminCategoriesPage.deleteCategory(randomName);
     })
 
-    it.only('Should create a category and create a product which is associated to this category', () => {
-        AdminCategoriesPage.visit();
+    it('Should create a category and create a product which is associated to this category', () => {
         // // generate random name and position
         let randomCategoryName = Math.random().toString(36).substring(7);
         let randomCategoryPosition = Math.floor(Math.random() * 1000);
@@ -41,7 +37,6 @@ describe('Create a new product and assert that it is visible', () => {
         let randomProductName = Math.random().toString(36).substring(7);
         AdminProductsPage.createNewProduct(randomCategoryName, randomProductName);
         AdminProductsPage.deleteProduct(randomProductName);
-        AdminCategoriesPage.visit();
         AdminCategoriesPage.deleteCategory(randomCategoryName);
     })
 

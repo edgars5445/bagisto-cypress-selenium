@@ -33,7 +33,7 @@ export class CategoriesPage {
         cy.get('select[name="display_mode"]').select('products_only');
 
         // save the category
-        cy.get('button[type="submit"]').contains('Save Category').click();
+        cy.get('button.primary-button').click();
 
         // verify the category was created
         cy.url().should('include', '/admin/catalog/categories');
@@ -48,6 +48,7 @@ export class CategoriesPage {
     }
 
     deleteCategory(name) {
+        this.visit();
         // find the category in the list
         cy.get('.row:nth-child(2) .icon-uncheckbox').click();
 

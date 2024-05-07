@@ -3,7 +3,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "test": "mocha --timeout 60000"
+        "test": "mocha --headless --timeout 60000"
     },
     "devDependencies": {
         "axios": "^1.6.4",
