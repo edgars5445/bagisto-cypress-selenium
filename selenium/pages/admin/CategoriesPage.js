@@ -21,6 +21,7 @@ class CategoriesPage extends BasePage {
 
 
     async createNewCategory(name, position = '1') {
+        await this.visit();
         await this.clickCreateCategory();
         await this.assertCreateCategoryPage();
 
@@ -63,6 +64,7 @@ class CategoriesPage extends BasePage {
 
 
     async deleteCategory() {
+        await this.visit();
         // the new category is in the second row
         await driver.wait(until.elementLocated(By.css('.row:nth-child(2) .icon-uncheckbox')), 10000);
 

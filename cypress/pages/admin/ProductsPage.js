@@ -18,25 +18,27 @@ export class ProductsPage {
             })
     }
 
-    fillProductDataFields(productName, categoryName) {
+    fillProductDataFields(productName) {
         cy.get('input[name="name"]').type(productName, {delay: 0});
         cy.get('input[name="price"]').type('100', {delay: 0});
         cy.get('input[name="weight"]').type('1', {delay: 0});
         cy.get('label[for="status"]').click();
         cy.get('label[for="visible_individually"]').click();
-        cy.get('div label.group').contains(categoryName).click();
+
+        // assign the product first category
+        cy.get('div.active.v-tree-item label').click();
         cy.get('textarea#short_description').type('short description', {delay: 0});
         cy.get('textarea#description').type('description', {delay: 0});
     }
 
-    createNewProduct(categoryName, productName) {
+    createNewProduct(productName) {
         this.visit();
         cy.get('div button.primary-button').click();
         this.fillCreateProductModal();
 
         cy.url().should('include', '/admin/catalog/products/edit/');
 
-        this.fillProductDataFields(productName, categoryName);
+        this.fillProductDataFields(productName);
         cy.get('div button.primary-button').click();
 
         cy.assertSuccessToast('Product updated successfully');
